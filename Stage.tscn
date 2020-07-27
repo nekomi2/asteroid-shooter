@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://sprites/background.png" type="Texture" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://fonts/hour5.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://background.gd" type="Script" id=4]
+[ext_resource path="res://Stage.gd" type="Script" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 3 )
+
+[node name="Stage" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="spawn_timer" type="Timer" parent="."]
+autostart = true
+
+[node name="background" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 59.2577, 90.93 )
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[node name="score" type="Label" parent="ui"]
+margin_left = 6.47067
+margin_right = 46.4707
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.435294, 1, 0.733333, 1 )
+custom_colors/font_color_shadow = Color( 0.184314, 0.121569, 0.278431, 1 )
+text = "Score:0"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="retry" type="Label" parent="ui"]
+visible = false
+margin_left = 111.704
+margin_top = 76.6264
+margin_right = 216.704
+margin_bottom = 101.626
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.435294, 1, 0.733333, 1 )
+custom_colors/font_color_shadow = Color( 0.184314, 0.121569, 0.278431, 1 )
+text = "game over 
+-press enter to retry-"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
