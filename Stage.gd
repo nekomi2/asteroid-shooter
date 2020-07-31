@@ -5,17 +5,27 @@ const SCREEN_HEIGHT = 180
 
 var is_game_over = false
 var asteroid = preload("res://Asteroid.tscn")
-var score = 0
+var player_scene = preload("res://Player.tscn")
+var player2 = player_scene.instance()
+var player3 = player_scene.instance()
 var extra_beams = 0
+var score = 0
 onready var score_display = $ui/score
 onready var timer = $spawn_timer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$player.connect("destroyed",self,"on_player_destroyed")
-
+	score_display.text = "Score: " + str(score)
+	get_tree().set_auto_accept_quit(false)
+	
+	
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_QUIT_REQUEST:
+		prompt_quit()
+	
 func _input(event: InputEvent) -> void:
 	if(Input.is_action_just_pressed("ui_cancel")):
-		get_tree().quit()
+		prompt_quit()
 	if is_game_over and Input.is_action_just_pressed("ui_accept"):
 		get_tree().change_scene("res://Stage.tscn")
 
@@ -38,3 +48,20 @@ func _on_player_score():
 	if(score / ((extra_beams+1) * 10) == 1): 
 		extra_beams += 1
 		$player.laser_beams += extra_beams
+	if(score == 30):
+		player2.position = $player.position + Vector2(0.0, 16)
+		add_child(player2)
+	elif(score == 40):
+		player3.position = $player.position + Vector2(0.0, -16)
+		add_child(player3)
+
+func prompt_quit():
+	$Control/Quit.popup()
+	get_tree().set_pause(true)
+	
+func _on_Quit_confirmed() -> void:
+	get_tree().quit()
+
+
+func _on_Quit_popup_hide() -> void:
+	get_tree().set_pause(false)

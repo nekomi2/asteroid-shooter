@@ -57,4 +57,49 @@ uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Control" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+rect_clip_content = true
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Quit" type="ConfirmationDialog" parent="Control"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -58.5
+margin_top = -35.0
+margin_right = 58.5
+margin_bottom = 35.0
+rect_min_size = Vector2( 100, 70 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.0
+popup_exclusive = true
+window_title = ""
+resizable = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Confirm" type="Label" parent="Control/Quit"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -50.5
+margin_top = 8.0
+margin_right = 50.5
+margin_bottom = 34.0
+text = "Are you sure?"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="confirmed" from="Control/Quit" to="." method="_on_Quit_confirmed"]
+[connection signal="popup_hide" from="Control/Quit" to="." method="_on_Quit_popup_hide"]

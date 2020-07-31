@@ -12,7 +12,7 @@ onready var stage_node = get_parent()
 onready var timer = $reload_timer
 
 signal destroyed()
-
+signal hit_wall()
 func _process(delta: float) -> void:
 	var input_dir = Vector2()
 	if(Input.is_action_pressed("ui_up")):
@@ -28,12 +28,16 @@ func _process(delta: float) -> void:
 	
 	if(position.x < 0.0 + 8):
 		position.x = 0.0 + 8
+		emit_signal("hit_wall")
 	elif position.x > SCREEN_WIDTH - 8:
 		position.x = SCREEN_WIDTH - 8
+		emit_signal("hit_wall")
 	if position.y < 0.0 + 8:
 		position.y = 0.0 + 8
+		emit_signal("hit_wall")
 	elif position.y > SCREEN_HEIGHT - 8:
 		position.y = SCREEN_HEIGHT - 8
+		emit_signal("hit_wall")
 	
 	if(Input.is_action_just_pressed("ui_accept") and can_shoot):
 		can_shoot = false
@@ -43,7 +47,6 @@ func _process(delta: float) -> void:
 			laser_instance.set_sprite_dir(laser_dir[i][1])
 			stage_node.add_child(laser_instance)
 		timer.start()
-
 
 func _on_reload_timer_timeout() -> void:
 	can_shoot = true

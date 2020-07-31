@@ -19,6 +19,10 @@ config/name="Hour5"
 run/main_scene="res://Stage.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+SaveScore="*res://SaveScore.gd"
+
 [display]
 
 window/size/width=320
